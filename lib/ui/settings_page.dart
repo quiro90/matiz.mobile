@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matiz_core/matiz_core.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,6 +8,21 @@ import '../config.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../state/app_controller.dart';
 import '../widgets/matiz_logo.dart';
+
+/// Versión leída del paquete compilado (single source: `pubspec.yaml`); se consulta una vez.
+/// Sin canal de plataforma (tests) devuelve null y el título no muestra versión.
+final Future<PackageInfo?> _packageInfo = () async {
+  try {
+    return await PackageInfo.fromPlatform();
+  } catch (_) {
+    return null;
+  }
+}();
+
+String _aboutTitle(PackageInfo? info) {
+  final v = info?.version ?? '';
+  return v.isEmpty ? 'Matiz by Juan Quiroga' : 'Matiz $v by Juan Quiroga';
+}
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -105,7 +121,10 @@ class SettingsPage extends StatelessWidget {
         header(t.settingsAbout),
         ListTile(
           leading: const MatizLogo(size: 36),
-          title: Text('Matiz $appVersion by Juan Quiroga'),
+          title: FutureBuilder<PackageInfo?>(
+            future: _packageInfo,
+            builder: (context, snapshot) => Text(_aboutTitle(snapshot.data)),
+          ),
           subtitle: const Text('@juanquirogaart'),
           onTap: () => _open('https://www.instagram.com/juanquirogaart/'),
         ),
@@ -140,12 +159,16 @@ class SettingsPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.article_outlined),
           title: Text(t.licenses),
-          onTap: () => showLicensePage(
+          onTap: () async {
+            final info = await _packageInfo;
+            if (!context.mounted) return;
+            showLicensePage(
               context: context,
               applicationName: 'Matiz',
-              applicationVersion: appVersion,
+              applicationVersion: info?.version ?? '',
               applicationIcon: const Padding(padding: EdgeInsets.all(12), child: MatizLogo(size: 56)),
-            ),
+            );
+          },
         ),
         const SizedBox(height: 24),
       ]),

@@ -46,6 +46,7 @@ dependencies:
     path: packages/matiz_core
   flutter_localizations:
     sdk: flutter
+  package_info_plus: ^10.2.2
 
 dev_dependencies:
   flutter_test:
