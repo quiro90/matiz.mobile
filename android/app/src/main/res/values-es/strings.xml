@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bubble_channel">Burbuja flotante</string>
+    <string name="bubble_notification_title">Matiz: burbuja activa</string>
+    <string name="bubble_notification_text">Tocá la burbuja para tomar colores de la pantalla.</string>
+    <string name="bubble_stop">Detener</string>
+    <string name="bubble_content_description">Matiz: capturar colores de la pantalla</string>
+</resources>

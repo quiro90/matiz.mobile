@@ -1,0 +1,11 @@
+name: matiz_core
+description: Motor de color de Matiz (port 1:1 de Matiz.Core). Dart puro, sin Flutter.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^6.0.0

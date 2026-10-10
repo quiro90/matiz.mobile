@@ -1,0 +1,30 @@
+schema: spec-driven
+
+context: |
+  Language: es
+  All artifacts must be written in es.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  Producto: Matiz Android ("matiz" = hue/nuance). App móvil (Flutter) para capturar, analizar y
+  crear paletas de colores en pantallas táctiles pequeñas. Es la versión móvil de Matiz desktop
+  (proyecto hermano ../matiz, C#/WPF, que NO se modifica). Flujo central: "veo un color ->
+  lo capturo (rueda, imagen compartida/pegada, cámara, burbuja) -> lo analizo -> genero una
+  paleta -> copio / guardo -> exporto".
+
+  Stack: Flutter (Dart 3), Material 3, provider/ChangeNotifier, gen-l10n (ARB es/en).
+  Paquetes: packages/matiz_core (Dart puro, port 1:1 de Matiz.Core con sus tests; sin Flutter),
+  app Flutter en la raíz. Persistencia JSON en el directorio de soporte de la app, mismo esquema
+  que desktop (palettes.json, settings.json, history.json, .mpalette compatible).
+  Objetivo de tienda: Google Play (AAB firmado). El código de UI/lógica no debe depender de
+  Android salvo en servicios de plataforma aislados (iOS-ready).
+
+  Filosofía: herramienta pequeña, rápida y simple; táctil primero (objetivos >= 48dp, gestos
+  naturales: mantener pulsado reemplaza al click derecho). Tests donde aportan (core y lógica
+  de estado), no tests exhaustivos de UI.
+
+rules:
+  tasks:
+    - Agrupar tareas por fase; cada fase termina en un entregable usable
+    - Cada tarea indica cómo se verifica (test, comando o comportamiento observable)
+  specs:
+    - Los escenarios usan valores concretos verificables (por ejemplo #5246BC)

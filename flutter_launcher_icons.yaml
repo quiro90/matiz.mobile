@@ -1,0 +1,10 @@
+# Íconos de Matiz (generados desde assets/branding, ver tool/README en docs). Uso: dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  image_path: "assets/branding/play_icon_512.png"
+  adaptive_icon_background: "#18181B"
+  adaptive_icon_foreground: "assets/branding/ic_foreground.png"
+  adaptive_icon_monochrome: "assets/branding/ic_monochrome.png"
+  min_sdk_android: 29
+  ios: true
+  remove_alpha_ios: true
