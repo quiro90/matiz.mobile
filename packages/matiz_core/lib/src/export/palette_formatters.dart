@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../colors/argb.dart';
+import '../colors/color_math.dart';
 import '../formatting/color_formats.dart';
 import '../localization/texts.dart';
 import '../palettes/palette.dart';
@@ -14,6 +15,16 @@ class PaletteExportModel {
 
   static PaletteExportModel from(Palette p) =>
       PaletteExportModel(p.name, [for (final c in p.colors) PaletteExportColor(c.name, c.color)]);
+
+  /// Igual que [from] pero aplicando la vista en escala de grises recordada por la
+  /// paleta (`grayPercent`); exportar es fiel a lo que se ve (WYSIWYG). Los datos
+  /// guardados (colores, nombres) no se modifican.
+  static PaletteExportModel fromGrayed(Palette p) {
+    final amount = (p.grayPercent ?? 0) / 100.0;
+    return PaletteExportModel(p.name, [
+      for (final c in p.colors) PaletteExportColor(c.name, ColorMath.mixToGray(c.color, amount)),
+    ]);
+  }
 }
 
 class PaletteExportColor {

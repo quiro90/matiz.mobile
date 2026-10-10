@@ -70,6 +70,17 @@ class PaletteService {
     _touch(p);
   }
 
+  /// Cambia el porcentaje de la vista en escala de grises de la paleta.
+  /// Es estado de presentación: NO toca modifiedAt y guardar colores no se ve afectado.
+  void setGrayPercent(String id, int value) {
+    final p = find(id);
+    if (p == null) return;
+    final v = value <= 0 ? null : (value >= 100 ? 100 : value);
+    if (p.grayPercent == v) return;
+    p.grayPercent = v;
+    _changed();
+  }
+
   Palette? duplicate(String id) {
     final src = find(id);
     if (src == null) return null;

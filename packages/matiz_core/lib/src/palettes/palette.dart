@@ -46,6 +46,10 @@ class Palette {
   String? description;
   DateTime createdAt;
   DateTime modifiedAt;
+
+  /// Porcentaje de vista en escala de grises recordado por la paleta
+  /// (estado de presentación, no de datos; null = 0 %). Paridad con desktop.
+  int? grayPercent;
   List<PaletteColor> colors;
 
   Palette({
@@ -54,6 +58,7 @@ class Palette {
     this.description,
     DateTime? createdAt,
     DateTime? modifiedAt,
+    this.grayPercent,
     List<PaletteColor>? colors,
   })  : id = id ?? newGuid(),
         createdAt = createdAt ?? DateTime.utc(1),
@@ -66,6 +71,7 @@ class Palette {
         if (description != null) 'description': description,
         'createdAt': formatDate(createdAt),
         'modifiedAt': formatDate(modifiedAt),
+        if (grayPercent != null) 'grayPercent': grayPercent,
         'colors': [for (final c in colors) c.toJson()],
       };
 
@@ -75,11 +81,19 @@ class Palette {
         description: j['description'] as String?,
         createdAt: parseDate(j['createdAt']),
         modifiedAt: parseDate(j['modifiedAt']),
+        grayPercent: readGrayPercent(j['grayPercent']),
         colors: [
           for (final c in (j['colors'] as List? ?? const []))
             if (c is Map) PaletteColor.fromJson(c.cast<String, Object?>()),
         ],
       );
+
+  /// Lee `grayPercent` tolerante: null = 0 %; entero válido 1–100 se conserva;
+  /// 0, no numéricos y fuera de rango se normalizan a null.
+  static int? readGrayPercent(Object? v) {
+    final n = v is int ? v : null;
+    return n == null || n <= 0 || n > 100 ? null : n;
+  }
 }
 
 /// Contenido de palettes.json.

@@ -170,6 +170,20 @@ abstract final class ColorMath {
     return Argb(c.a, v, v, v);
   }
 
+  /// Mezcla por canal del color hacia su gris equivalente perceptual (0 = original, 1 = gris).
+  /// Solo presentación: conserva el alfa del original y no muta colores almacenados.
+  static Argb mixToGray(Argb c, double amount) {
+    if (amount.isNaN) return c;
+    amount = clampD(amount, 0, 1);
+    if (amount <= 0) return c;
+    final g = grayEquivalent(c);
+    if (amount >= 1) return g;
+    return Argb(c.a, _lerpByte(c.r, g.r, amount), _lerpByte(c.g, g.g, amount), _lerpByte(c.b, g.b, amount));
+  }
+
+  /// `Math.Round(a + (b - a) * t, MidpointRounding.AwayFromZero)` acotado a byte.
+  static int _lerpByte(int a, int b, double t) => clampI(roundAway(a + (b - a) * t).toInt(), 0, 255);
+
   // ---------- utilidades ----------
 
   static double normalizeHue(double h) {

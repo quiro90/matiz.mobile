@@ -23,6 +23,10 @@ class PaletteFile {
   String? description;
   DateTime? createdAt;
   DateTime? modifiedAt;
+
+  /// Vista en escala de grises guardada con la paleta (0–100, null = 0 %). Los `hex`
+  /// del archivo son SIEMPRE los colores originales (sin gris horneado).
+  int? grayPercent;
   List<PaletteColor> colors;
 
   PaletteFile({
@@ -31,6 +35,7 @@ class PaletteFile {
     this.description,
     this.createdAt,
     this.modifiedAt,
+    this.grayPercent,
     List<PaletteColor>? colors,
   }) : colors = colors ?? [];
 
@@ -39,6 +44,7 @@ class PaletteFile {
         description: palette.description,
         createdAt: palette.createdAt,
         modifiedAt: palette.modifiedAt,
+        grayPercent: palette.grayPercent,
         colors: [...palette.colors],
       );
 
@@ -48,6 +54,7 @@ class PaletteFile {
         description: description,
         createdAt: createdAt,
         modifiedAt: modifiedAt,
+        grayPercent: grayPercent,
         colors: [for (final c in colors) PaletteColor(name: c.name, hex: c.hex, alpha: c.alpha)],
       );
 
@@ -57,6 +64,7 @@ class PaletteFile {
         if (description != null) 'description': description,
         'createdAt': formatDate(createdAt ?? DateTime.utc(1)),
         'modifiedAt': formatDate(modifiedAt ?? DateTime.utc(1)),
+        if (grayPercent != null) 'grayPercent': grayPercent,
         'colors': [for (final c in colors) c.toJson()],
       };
 
@@ -99,6 +107,7 @@ class PaletteFile {
         description: j['description'] as String?,
         createdAt: parseDate(j['createdAt']),
         modifiedAt: parseDate(j['modifiedAt']),
+        grayPercent: Palette.readGrayPercent(j['grayPercent']),
         colors: [
           for (final c in (colors as List? ?? const []))
             if (c is Map) PaletteColor.fromJson(c.cast<String, Object?>()),

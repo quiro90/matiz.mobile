@@ -559,6 +559,10 @@ class AppController extends ChangeNotifier {
   void renamePalette(String id, String name) => palettes.rename(id, name);
   void setPaletteDescription(String id, String? d) => palettes.setDescription(id, d);
 
+  /// Porcentaje de la vista en escala de grises de la paleta activa (0–100, null = 0).
+  /// El servicio notifica → persiste (scheduleSave) y refresca la UI.
+  void setGrayPercent(String paletteId, int value) => palettes.setGrayPercent(paletteId, value);
+
   void removePaletteColor(String paletteId, String colorId) {
     final p = palettes.find(paletteId);
     if (p == null) return;
@@ -594,7 +598,9 @@ class AppController extends ChangeNotifier {
           duration: const Duration(seconds: 6)));
       return;
     }
-    final colors = [for (final c in p.colors) c.color];
+    // La vista en escala de grises se aplica en caliente: la rueda carga lo que se ve.
+    final amount = (p.grayPercent ?? 0) / 100.0;
+    final colors = [for (final c in p.colors) ColorMath.mixToGray(c.color, amount)];
     session.commitArgb(colors.first, ColorChangeSource.palette);
     final st = session.current;
     freePoints.replaceAll([
@@ -635,11 +641,11 @@ class AppController extends ChangeNotifier {
 
   void copyPaletteAs(Palette p, String formatId) {
     final f = PaletteFormatters.get(formatId);
-    copyText(f.format(PaletteExportModel.from(p), formatOptions), what: t.toastCopiedAs(f.displayName));
+    copyText(f.format(PaletteExportModel.fromGrayed(p), formatOptions), what: t.toastCopiedAs(f.displayName));
   }
 
   String paletteAsText(Palette p, String formatId) =>
-      PaletteFormatters.get(formatId).format(PaletteExportModel.from(p), formatOptions);
+      PaletteFormatters.get(formatId).format(PaletteExportModel.fromGrayed(p), formatOptions);
 
   // ---------- Imagen ----------
 

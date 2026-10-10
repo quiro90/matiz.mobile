@@ -152,6 +152,11 @@ class _ActiveHeader extends StatelessWidget {
             ),
           ]),
         ),
+        _GrayscaleRow(
+          value: palette.grayPercent ?? 0,
+          hasColors: hasColors,
+          onChanged: (v) => c.setGrayPercent(palette.id, v),
+        ),
         if (hasColors)
           Padding(
             padding: const EdgeInsets.only(top: 8),
@@ -200,7 +205,8 @@ class _ActiveHeader extends StatelessWidget {
       case 'image':
       case 'overlay':
         await Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => ExportImagePage(model: PaletteExportModel.from(palette), overlay: action == 'overlay')));
+            builder: (_) =>
+                ExportImagePage(model: PaletteExportModel.fromGrayed(palette), overlay: action == 'overlay')));
       case 'file-save':
         try {
           final uri = await FilePicker.saveFile(
@@ -257,6 +263,46 @@ class _ActiveHeader extends StatelessWidget {
   }
 }
 
+/// Fila siempre visible del modo de vista en escala de grises. 0 % = colores originales;
+/// mover aplica en caliente sin tocar modifiedAt. Deshabilitada sin colores.
+class _GrayscaleRow extends StatelessWidget {
+  const _GrayscaleRow({required this.value, required this.hasColors, required this.onChanged});
+
+  final int value;
+  final bool hasColors;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Row(children: [
+      const SizedBox(width: 8),
+      Text(t.grayscaleTitle, style: theme.textTheme.labelMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+      Expanded(
+        child: Slider(
+          value: value.toDouble(),
+          min: 0,
+          max: 100,
+          divisions: 100,
+          label: '$value %',
+          onChanged: hasColors ? (v) => onChanged(v.round()) : null,
+        ),
+      ),
+      SizedBox(
+        width: 44,
+        child: Text('$value %', textAlign: TextAlign.center, style: MatizTheme.mono.copyWith(fontSize: 12)),
+      ),
+      IconButton(
+        tooltip: t.grayscaleReset,
+        visualDensity: VisualDensity.compact,
+        icon: const Icon(Icons.restart_alt, size: 20),
+        onPressed: hasColors && value > 0 ? () => onChanged(0) : null,
+      ),
+    ]);
+  }
+}
+
 /// Colores de la paleta activa: tocar = usar; mantener y arrastrar = reordenar; mantener sin mover = menú.
 class _ActiveColors extends StatelessWidget {
   const _ActiveColors({required this.palette});
@@ -286,7 +332,9 @@ class _ActiveColors extends StatelessWidget {
         ),
         itemBuilder: (context, i) {
           final pc = colors[i];
-          final color = pc.color;
+          final original = pc.color;
+          // Vista mezclada hacia gris; las acciones (usar, copiar, menú) operan sobre el color original.
+          final display = ColorMath.mixToGray(original, (palette.grayPercent ?? 0) / 100.0);
           return ReorderableDelayedDragStartListener(
             key: ValueKey(pc.id),
             index: i,
@@ -297,22 +345,22 @@ class _ActiveColors extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                  onTap: () => c.usePaletteColor(color),
+                  onTap: () => c.usePaletteColor(original),
                   child: SizedBox(
                     height: 56,
                     child: Row(children: [
-                      SizedBox(width: 72, child: ColorSwatchBox(color: color, radius: 0, border: false)),
+                      SizedBox(width: 72, child: ColorSwatchBox(color: display, radius: 0, border: false)),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Text(pc.name ?? 'Color ${i + 1}', maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium),
-                          Text(color.toString(), style: MatizTheme.mono.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                          Text(display.toString(), style: MatizTheme.mono.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
                         ]),
                       ),
                       IconButton(
                         tooltip: AppLocalizations.of(context).copy,
                         icon: const Icon(Icons.copy_rounded, size: 20),
-                        onPressed: () => c.copyDefault(color),
+                        onPressed: () => c.copyDefault(original),
                       ),
                       IconButton(
                         tooltip: AppLocalizations.of(context).delete,

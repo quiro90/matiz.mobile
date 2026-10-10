@@ -194,5 +194,7 @@
   "customExportTitle": "Personalizado",
   "tintsExportTitle": "Tints y shades",
   "imageColorsExportTitle": "Colores de la imagen",
-  "imageColorName": "Imagen {index}"
+  "imageColorName": "Imagen {index}",
+  "grayscaleTitle": "Escala de grises",
+  "grayscaleReset": "Restablecer escala de grises"
 }

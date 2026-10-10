@@ -608,4 +608,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String imageColorName(int index) {
     return 'Imagen $index';
   }
+
+  @override
+  String get grayscaleTitle => 'Escala de grises';
+
+  @override
+  String get grayscaleReset => 'Restablecer escala de grises';
 }

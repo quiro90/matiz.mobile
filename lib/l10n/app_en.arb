@@ -207,5 +207,7 @@
   "tintsExportTitle": "Tints and shades",
   "imageColorsExportTitle": "Image colors",
   "imageColorName": "Image {index}",
-  "@imageColorName": { "placeholders": { "index": { "type": "int" } } }
+  "@imageColorName": { "placeholders": { "index": { "type": "int" } } },
+  "grayscaleTitle": "Grayscale",
+  "grayscaleReset": "Reset grayscale"
 }

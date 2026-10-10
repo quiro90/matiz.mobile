@@ -1201,6 +1201,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Image {index}'**
   String imageColorName(int index);
+
+  /// No description provided for @grayscaleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grayscale'**
+  String get grayscaleTitle;
+
+  /// No description provided for @grayscaleReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset grayscale'**
+  String get grayscaleReset;
 }
 
 class _AppLocalizationsDelegate

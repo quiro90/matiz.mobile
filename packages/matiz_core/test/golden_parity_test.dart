@@ -32,6 +32,10 @@ void main() {
       check('cmyk', ColorFormats.cmyk(argb), m['cmyk']);
       check('oklch', ColorFormats.oklch(argb), m['oklch']);
       check('gray', ColorMath.grayEquivalent(argb).toHex(), m['gray']);
+      check('grayMix25', ColorMath.mixToGray(argb, 0.25).toHex(), m['grayMix25']);
+      check('grayMix50', ColorMath.mixToGray(argb, 0.50).toHex(), m['grayMix50']);
+      check('grayMix57', ColorMath.mixToGray(argb, 0.57).toHex(), m['grayMix57']);
+      check('grayMix100', ColorMath.mixToGray(argb, 1.0).toHex(), m['grayMix100']);
       check('scale500', hexes(DesignScale.generate(argb, ScaleAnchorMode.fixed500)), m['scale500']);
       check('scaleAuto', hexes(DesignScale.generate(argb, ScaleAnchorMode.automatic)), m['scaleAuto']);
       check('tintsShades', hexes(PaletteGenerator.tintsAndShades(argb)), m['tintsShades']);
