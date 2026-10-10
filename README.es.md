@@ -17,6 +17,7 @@ Versión móvil de [Matiz](../matiz): una herramienta de color pequeña y rápid
 - **Armonías** (complementaria, análoga, dividida, tríada, tétrada, monocromática) dibujadas en la rueda con luminosidad equilibrada, más tints/shades y neutros.
 - **Set personalizado**: color principal + hasta 64 puntos secundarios, que se añaden manteniendo pulsada la rueda, la imagen, la cámara o la burbuja; **Personalizar** (desde imagen/cámara) carga los colores extraídos como puntos personalizados de una vez.
 - **Paletas**: paleta activa con reordenado por arrastre, biblioteca con autoguardado, importar/exportar archivos **`.mpalette`** autocontenidos (compatibles con Matiz desktop), exportar PNG (paleta y superpuestos), copiar/compartir como **CSS variables, JSON, Dart, C#, Tailwind** o HEX.
+- **Escala de grises** (1.1.1): slider 0–100 % en la paleta activa que mezcla en caliente cada color hacia su gris equivalente (Oklab) sin alterar los guardados; el % se recuerda por paleta, viaja en el `.mpalette` y las exportaciones salen tal como se ven.
 - Deshacer/rehacer, interfaz en español / inglés, tema claro / oscuro.
 
 > El motor de color (`packages/matiz_core`) es un port 1:1 en Dart de `Matiz.Core` de escritorio, verificado byte a byte contra él (ver *Paridad*).

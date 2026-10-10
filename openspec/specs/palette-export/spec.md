@@ -46,6 +46,25 @@ El sistema SHALL copiar (o compartir como texto) una paleta guardada o una palet
 - **WHEN** el usuario toca "Compartir" en la vista previa
 - **THEN** se abre la hoja de compartir del sistema con el PNG
 
+### Requirement: Exportación fiel al modo en escala de grises
+Con la paleta activa en un porcentaje > 0, toda exportación de esa paleta SHALL reflejar el valor vigente del modo (WYSIWYG): los formatos de código ("Copiar como" / "Compartir como") SHALL entregar los colores mezclados con sus valores visibles (HEX/RGB) correspondientes, y las imágenes exportadas (Paleta PNG y Superpuestos) SHALL reproducir exactamente el color mezclado mostrado por cada muestra, con los valores HEX/RGB listados calculados sobre esa mezcla. El archivo `.mpalette` no forma parte del WYSIWYG: SHALL conservar los colores originales y el porcentaje (ver `palette-file`). A 0 % toda exportación SHALL quedar idéntica a como es hoy. Las paletas generadas y las escalas no SHALL verse afectadas (no tienen modo de escala de grises).
+
+#### Scenario: Copiar como código con escala 100
+- **WHEN** la paleta activa tiene escala 100 y contiene `#5246BC`
+- **THEN** cualquier formato de código (por ejemplo CSS variables) entrega el gris equivalente de `#5246BC` con el HEX/valor correspondiente al gris mostrado
+
+#### Scenario: Imagen con mezcla intermedia
+- **WHEN** la paleta activa tiene escala 60 y se exporta como imagen Paleta (o Superpuestos) a 1×
+- **THEN** el RGB del centro de cada bloque coincide exactamente con la mezcla 60 % mostrada y los valores HEX/RGB listados corresponden a esa mezcla
+
+#### Scenario: Exportación a 0 % idéntica
+- **WHEN** la escala está en 0
+- **THEN** todas las exportaciones (código, imagen Paleta, Superpuestos y `.mpalette`) quedan bit a bit idénticas a como son hoy
+
+#### Scenario: Escalas y paletas generadas intactas
+- **WHEN** con la paleta activa en 80 % el usuario exporta una Tints & Shades o "Añade todo" de una página Generar
+- **THEN** los colores generados salen en su color original, sin mezcla
+
 ### Requirement: Exportar como superpuestos
 "Exportar imagen → Superpuestos" (también desde la dupla Anterior/Actual de la hoja de detalle) SHALL dibujar los colores como capas opacas apiladas de tamaño decreciente con forma cuadrado, círculo o triángulo, orden primero→último o último→primero, escala 1×/2×/3× y fondo claro, oscuro o transparente, de modo que con 64 colores todos los anillos sigan visibles, y SHALL listar nombre, HEX y RGB de cada color. Con un color SHALL verse una única capa. Las acciones de guardado y compartido SHALL ser las mismas que en la exportación de paleta.
 

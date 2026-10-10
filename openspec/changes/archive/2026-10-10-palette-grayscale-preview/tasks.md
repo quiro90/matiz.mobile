@@ -23,7 +23,7 @@
 
 - [x] 5.1 Fila del modo en `_ActiveHeader` (`lib/ui/palettes_page.dart`): etiqueta "Escala de grises", `Slider` 0–100 (divisions 100, objetivo táctil ≥ 48 dp) deshabilitado si la paleta no tiene colores, % visible (p. ej. `57 %`) y acción de restablecer a 0. Strings nuevos en `app_es.arb`/`app_en.arb` + `flutter gen-l10n`. Verificar con `flutter analyze` y arrastre manual: muestras y HEX se mezclan en vivo y a 0 % vuelven al original. → `flutter analyze` limpio + test de interfaz que arrastra el slider (`test/palette_gray_state_test.dart`).
 - [x] 5.2 Muestras mezcladas en `_ActiveColors`: swatch y texto HEX calculados con el % de la paleta activa; tap/menú/copiado operan sobre `pc.color` original. Verificar: con 100 % el HEX visible es el gris, pero "copiar" entrega el HEX original.
-- [ ] 5.3 Restauraciones automáticas: cambio de paleta marcada, importar `.mpalette` (con y sin `grayPercent`), crear/duplicar y reabrir la app muestran el % correcto (slider + muestras). Verificar en dispositivo/emulador: paleta con 60 % → marcar otra → volver → 60 % visible; reiniciar la app con 80 % arranca en 80 %.
+- [x] 5.3 Restauraciones automáticas: cambio de paleta marcada, importar `.mpalette` (con y sin `grayPercent`), crear/duplicar y reabrir la app muestran el % correcto (slider + muestras). Verificar en dispositivo/emulador: paleta con 60 % → marcar otra → volver → 60 % visible; reiniciar la app con 80 % arranca en 80 %. → Validado en motorola edge 50 ultra (Android 16) el 2026-10-10, build release 1.1.1+11.
 
 ## 6. Versión y cierre
 

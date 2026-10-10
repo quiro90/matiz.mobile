@@ -17,6 +17,7 @@ Mobile version of [Matiz](../matiz) — a small, fast color tool to **pick a col
 - **Harmonies** (complementary, analogous, split, triadic, tetradic, monochromatic) drawn on the wheel with balanced lightness, plus tints/shades and neutrals.
 - **Custom set**: main color + up to 64 secondary points, added by long-pressing the wheel, the image, the camera or the bubble; **Customize** (from image/camera) loads the extracted colors as Custom points at once.
 - **Palettes**: active palette with drag reordering, library with autosave, import/export self-contained **`.mpalette`** files (compatible with Matiz desktop), PNG exports (palette and overlay), copy/share as **CSS variables, JSON, Dart, C#, Tailwind** or HEX.
+- **Grayscale** (1.1.1): slider 0–100 % on the active palette that live-blends every color toward its perceptual gray (Oklab) without touching stored colors; the % is remembered per palette, travels inside the `.mpalette`, and exports come out exactly as seen.
 - Undo/redo, Spanish / English UI, light / dark theme.
 
 > The color engine (`packages/matiz_core`) is a 1:1 Dart port of the desktop `Matiz.Core`, verified byte-for-byte against it (see *Parity*).
