@@ -61,3 +61,13 @@ android/.../kotlin/    MainActivity (compartir/abrir/portapapeles/galería/idiom
 openspec/              Cambio y specs (spec-driven)
 docs/vault/            Documentación de producto y técnica (vault de Obsidian)
 ```
+
+## Licencia
+
+Apache 2.0 con la [Commons Clause](https://commonsclause.com/): libre para copiar, modificar, compilar y distribuir; la venta del software queda reservada al autor. Ver [LICENSE](LICENSE).
+
+## Apoyar el proyecto
+
+Considerá donar si te es útil:
+
+<a href="https://cafecito.app/juanquiroga"><img src="https://cdn.cafecito.app/imgs/buttons/button_2.png" alt="Invitame un café en cafecito.app"></a> <a href="https://www.paypal.com/ncp/payment/PJXDUSBHSE8DE"><img src="https://www.paypalobjects.com/es_ES/i/btn/btn_donateCC_LG.gif" alt="Doná con PayPal"></a>

@@ -63,3 +63,13 @@ docs/vault/            Product & technical documentation (Obsidian vault)
 ```
 
 Spanish: [README.es.md](README.es.md).
+
+## License
+
+Apache 2.0 with the [Commons Clause](https://commonsclause.com/): free to copy, modify, build and distribute; selling the software itself is reserved to the author. See [LICENSE](LICENSE).
+
+## Support the project
+
+Consider donating if you find it useful:
+
+<a href="https://cafecito.app/juanquiroga"><img src="https://cdn.cafecito.app/imgs/buttons/button_2.png" alt="Invitame un café en cafecito.app"></a> <a href="https://www.paypal.com/ncp/payment/PJXDUSBHSE8DE"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal"></a>
