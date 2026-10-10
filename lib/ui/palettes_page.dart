@@ -242,28 +242,18 @@ class _ActiveHeader extends StatelessWidget {
   Future<void> _editNameAndDescription(BuildContext context, Palette p) async {
     final c = context.read<AppController>();
     final t = AppLocalizations.of(context);
-    final name = TextEditingController(text: p.name);
-    final desc = TextEditingController(text: p.description ?? '');
-    final ok = await showDialog<bool>(
+    final result = await showDialog<(String, String)>(
       context: context,
-      builder: (d) => AlertDialog(
-        content: Column(mainAxisSize: MainAxisSize.min, children: [
-          TextField(controller: name, autofocus: true, decoration: InputDecoration(labelText: t.paletteName)),
-          const SizedBox(height: 12),
-          TextField(controller: desc, maxLines: 3, minLines: 1, decoration: InputDecoration(labelText: t.paletteDescription, hintText: t.descriptionHint)),
-        ]),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(d, false), child: Text(t.cancel)),
-          FilledButton(onPressed: () => Navigator.pop(d, true), child: Text(t.save)),
-        ],
+      builder: (_) => _NameDescDialog(
+        paletteName: p.name,
+        paletteDescription: p.description,
+        t: t,
       ),
     );
-    if (ok == true) {
-      c.renamePalette(p.id, name.text);
-      c.setPaletteDescription(p.id, desc.text);
+    if (result != null) {
+      c.renamePalette(p.id, result.$1);
+      c.setPaletteDescription(p.id, result.$2);
     }
-    name.dispose();
-    desc.dispose();
   }
 }
 
@@ -368,19 +358,16 @@ class _ActiveColors extends StatelessWidget {
               title: Text(t.rename),
               onTap: () async {
                 Navigator.pop(ctx);
-                final ctl = TextEditingController(text: pc.name ?? '');
-                final ok = await showDialog<bool>(
+                final newName = await showDialog<String>(
                   context: context,
-                  builder: (d) => AlertDialog(
-                    content: TextField(controller: ctl, autofocus: true, decoration: InputDecoration(labelText: t.renameColor)),
-                    actions: [
-                      TextButton(onPressed: () => Navigator.pop(d, false), child: Text(t.cancel)),
-                      FilledButton(onPressed: () => Navigator.pop(d, true), child: Text(t.save)),
-                    ],
+                  builder: (_) => _TextPromptDialog(
+                    label: t.renameColor,
+                    initial: pc.name ?? '',
+                    labelCancel: t.cancel,
+                    labelSave: t.save,
                   ),
                 );
-                if (ok == true) c.renamePaletteColor(p.id, pc.id, ctl.text);
-                ctl.dispose();
+                if (newName != null) c.renamePaletteColor(p.id, pc.id, newName);
               },
             ),
             ListTile(leading: const Icon(Icons.find_replace), title: Text(t.replaceWithCurrent), onTap: () => run(() => c.replacePaletteColor(p.id, pc.id))),
@@ -444,6 +431,81 @@ class _LibraryItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Diálogo de nombre + descripción. Los controllers viven en el State y se liberan al desmontarse:
+/// disposearlos en el caller rompe el TextField mientras el diálogo anima su salida.
+class _NameDescDialog extends StatefulWidget {
+  const _NameDescDialog({required this.paletteName, required this.paletteDescription, required this.t});
+
+  final String? paletteName;
+  final String? paletteDescription;
+  final AppLocalizations t;
+
+  @override
+  State<_NameDescDialog> createState() => _NameDescDialogState();
+}
+
+class _NameDescDialogState extends State<_NameDescDialog> {
+  late final TextEditingController _name = TextEditingController(text: widget.paletteName);
+  late final TextEditingController _desc = TextEditingController(text: widget.paletteDescription);
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _desc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = widget.t;
+    return AlertDialog(
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        TextField(controller: _name, autofocus: true, decoration: InputDecoration(labelText: t.paletteName)),
+        const SizedBox(height: 12),
+        TextField(controller: _desc, maxLines: 3, minLines: 1, decoration: InputDecoration(labelText: t.paletteDescription, hintText: t.descriptionHint)),
+      ]),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, null), child: Text(t.cancel)),
+        FilledButton(onPressed: () => Navigator.pop(context, (_name.text, _desc.text)), child: Text(t.save)),
+      ],
+    );
+  }
+}
+
+/// Diálogo de un solo campo de texto (devuelve el texto o null si se cancela).
+class _TextPromptDialog extends StatefulWidget {
+  const _TextPromptDialog({required this.label, required this.initial, required this.labelCancel, required this.labelSave});
+
+  final String label;
+  final String initial;
+  final String labelCancel;
+  final String labelSave;
+
+  @override
+  State<_TextPromptDialog> createState() => _TextPromptDialogState();
+}
+
+class _TextPromptDialogState extends State<_TextPromptDialog> {
+  late final TextEditingController _ctl = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _ctl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: TextField(controller: _ctl, autofocus: true, decoration: InputDecoration(labelText: widget.label)),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, null), child: Text(widget.labelCancel)),
+        FilledButton(onPressed: () => Navigator.pop(context, _ctl.text), child: Text(widget.labelSave)),
+      ],
     );
   }
 }

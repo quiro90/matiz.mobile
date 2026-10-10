@@ -1,14 +1,25 @@
 # Matiz for Android
 
+**English** · [Español](README.es.md)
+
 Mobile version of [Matiz](../matiz) — a small, fast color tool to **pick a color → understand it → build a palette → copy / save → export**, redesigned for touch screens.
 
-- **Create**: HSV color wheel with brightness bar, or an image as the focus (pinch to zoom, one finger + loupe to pick, long-press to add). Previous | Current bar, recent colors.
-- **Generate**: Design Scale 50–950, tints/shades, neutrals, harmonies and **Custom** (main color + up to 64 secondary points, added by long-pressing the wheel, the image, the camera or the bubble).
-- **Palettes**: active palette (drag to reorder), library, `.mpalette` import/export (compatible with Matiz desktop), PNG export (palette and overlay).
-- **Inputs**: wheel, gallery (system photo picker, no permissions), paste, **Share → Matiz** (screenshots), live camera, optional floating bubble (single consented screenshot).
-- Spanish / English, light / dark theme.
+![Matiz](docs/capture.png)
+![Matiz](docs/capture2.png)
+![Matiz](docs/capture3.png)
 
-The color engine (`packages/matiz_core`) is a 1:1 Dart port of `Matiz.Core` and is verified byte-for-byte against the desktop app (see *Parity*).
+## Features
+
+- **Visual picker**: hue/saturation wheel (white center) with a brightness bar showing the color itself, previous | current bar and recent colors; or an image as the focus — pinch to zoom, one finger + loupe to pick, long-press to add.
+- **Pick from anywhere**: gallery (system photo picker — no permissions), paste any format, screenshots via **Share → Matiz**, live camera, and an optional floating bubble (a single consented screenshot).
+- **Every format**: HEX, RGB, HSL, HSV, CMYK (approx.), OKLCH, plus code snippets (CSS, C#/WPF, XAML, Flutter/Dart, ARGB); type a format to set a color.
+- **Design scale 50–950** generated in OKLCH, ready for design systems.
+- **Harmonies** (complementary, analogous, split, triadic, tetradic, monochromatic) drawn on the wheel with balanced lightness, plus tints/shades and neutrals.
+- **Custom set**: main color + up to 64 secondary points, added by long-pressing the wheel, the image, the camera or the bubble; **Customize** (from image/camera) loads the extracted colors as Custom points at once.
+- **Palettes**: active palette with drag reordering, library with autosave, import/export self-contained **`.mpalette`** files (compatible with Matiz desktop), PNG exports (palette and overlay), copy/share as **CSS variables, JSON, Dart, C#, Tailwind** or HEX.
+- Undo/redo, Spanish / English UI, light / dark theme.
+
+> The color engine (`packages/matiz_core`) is a 1:1 Dart port of the desktop `Matiz.Core`, verified byte-for-byte against it (see *Parity*).
 
 ## Requirements
 
@@ -26,7 +37,7 @@ flutter run                 # on a connected device or emulator
 ## Tests
 
 ```bash
-cd packages/matiz_core && dart test     # color engine (107 tests, includes desktop parity)
+cd packages/matiz_core && dart test     # color engine (includes desktop parity)
 flutter test                            # app widget tests
 flutter analyze
 ```
@@ -61,8 +72,6 @@ android/.../kotlin/    MainActivity (share/open/clipboard/gallery/locale), Bubbl
 openspec/              Spec-driven change and specs
 docs/vault/            Product & technical documentation (Obsidian vault)
 ```
-
-Spanish: [README.es.md](README.es.md).
 
 ## License
 

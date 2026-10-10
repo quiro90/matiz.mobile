@@ -1,14 +1,25 @@
 # Matiz para Android
 
+[English](README.md) · **Español**
+
 Versión móvil de [Matiz](../matiz): una herramienta de color pequeña y rápida para **tomar un color → entenderlo → armar una paleta → copiar / guardar → exportar**, rediseñada para pantallas táctiles.
 
-- **Crear**: rueda HSV con barra de brillo, o una imagen como foco (pellizcar para zoom, un dedo con lupa para elegir, mantener pulsado para añadir). Barra Anterior | Actual y recientes.
-- **Generar**: Design Scale 50–950, tints/shades, neutros, armonías y **Personalizado** (principal + hasta 64 puntos secundarios, que se añaden manteniendo pulsada la rueda, la imagen, la cámara o la burbuja).
-- **Paletas**: paleta activa (arrastrar para reordenar), biblioteca, importar/exportar `.mpalette` (compatible con Matiz desktop), exportar PNG (paleta y superpuestos).
-- **Entradas**: rueda, galería (selector de fotos del sistema, sin permisos), pegar, **Compartir → Matiz** (capturas), cámara en vivo, burbuja flotante opcional (una captura consentida).
-- Español / inglés, tema claro / oscuro.
+![Matiz](docs/capture.png)
+![Matiz](docs/capture2.png)
+![Matiz](docs/capture3.png)
 
-El motor de color (`packages/matiz_core`) es un port 1:1 en Dart de `Matiz.Core` y se verifica byte a byte contra la app de escritorio (ver *Paridad*).
+## Características
+
+- **Selector visual**: rueda de tono/saturación (centro blanco) con barra de brillo que muestra el propio color, barra Anterior | Actual y colores recientes; o una imagen como foco — pellizcar para hacer zoom, un dedo + lupa para elegir, mantener pulsado para añadir.
+- **Elegir desde cualquier lado**: galería (selector de fotos del sistema — sin permisos), pegar cualquier formato, capturas vía **Compartir → Matiz**, cámara en vivo y burbuja flotante opcional (una única captura consentida).
+- **Todos los formatos**: HEX, RGB, HSL, HSV, CMYK (aprox.), OKLCH, más fragmentos de código (CSS, C#/WPF, XAML, Flutter/Dart, ARGB); escribir un formato define el color.
+- **Design Scale 50–950** generada en OKLCH, lista para sistemas de diseño.
+- **Armonías** (complementaria, análoga, dividida, tríada, tétrada, monocromática) dibujadas en la rueda con luminosidad equilibrada, más tints/shades y neutros.
+- **Set personalizado**: color principal + hasta 64 puntos secundarios, que se añaden manteniendo pulsada la rueda, la imagen, la cámara o la burbuja; **Personalizar** (desde imagen/cámara) carga los colores extraídos como puntos personalizados de una vez.
+- **Paletas**: paleta activa con reordenado por arrastre, biblioteca con autoguardado, importar/exportar archivos **`.mpalette`** autocontenidos (compatibles con Matiz desktop), exportar PNG (paleta y superpuestos), copiar/compartir como **CSS variables, JSON, Dart, C#, Tailwind** o HEX.
+- Deshacer/rehacer, interfaz en español / inglés, tema claro / oscuro.
+
+> El motor de color (`packages/matiz_core`) es un port 1:1 en Dart de `Matiz.Core` de escritorio, verificado byte a byte contra él (ver *Paridad*).
 
 ## Requisitos
 
@@ -26,14 +37,14 @@ flutter run                 # en un dispositivo conectado o emulador
 ## Tests
 
 ```bash
-cd packages/matiz_core && dart test     # motor de color (107 tests, incluye paridad con desktop)
+cd packages/matiz_core && dart test     # motor de color (incluye paridad con desktop)
 flutter test                            # tests de widgets de la app
 flutter analyze
 ```
 
 ### Paridad con desktop
 
-`tool/golden` es una app de consola .NET que compila `Matiz.Core` de desktop **leyendo** sus fuentes desde `../matiz` (no escribe nada allí) y vuelca resultados de referencia en `packages/matiz_core/test/fixtures/golden.json`: 2.000 colores (conversiones, escalas, armonías, tints, neutros), extracción k-means y exportación de código. `golden_parity_test.dart` debe coincidir exactamente.
+`tool/golden` es una app de consola .NET que compila `Matiz.Core` de escritorio **leyendo** sus fuentes desde `../matiz` (no escribe nada allí) y vuelca resultados de referencia en `packages/matiz_core/test/fixtures/golden.json`: 2.000 colores (conversiones, escalas, armonías, tints, neutros), extracción k-means y exportación de código. `golden_parity_test.dart` debe coincidir exactamente.
 
 ```bash
 cd tool/golden && dotnet run
