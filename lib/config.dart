@@ -1,5 +1,5 @@
 /// Configuración de compilación.
-const String appVersion = '1.0.0';
+const String appVersion = '1.1.0';
 
 /// Plan B ante la política de pagos de Google Play: `--dart-define=DONATIONS=false` oculta las donaciones.
 const bool donationsEnabled = bool.fromEnvironment('DONATIONS', defaultValue: true);
