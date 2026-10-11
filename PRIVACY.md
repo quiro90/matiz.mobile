@@ -16,7 +16,7 @@ Matiz is a color picker and palette tool. **Matiz does not collect, transmit, se
 
 **Children.** Matiz does not collect data from anyone, including children.
 
-**Contact.** Juan Quiroga — jquiroga@educaria.com
+**Contact.** Juan Quiroga — juanquiroga9@live.com
 
 ## Español
 
@@ -32,4 +32,4 @@ Matiz es una herramienta para tomar colores y crear paletas. **Matiz no recopila
 
 **Menores.** Matiz no recopila datos de nadie, incluidos menores.
 
-**Contacto.** Juan Quiroga — jquiroga@educaria.com
+**Contacto.** Juan Quiroga — juanquiroga9@live.com
